@@ -170,24 +170,19 @@
       const name = $("#nombreEdit").val();
       const balance = $("#balanceEdit").val();
       try {
-        const { data } = await axios.put( `http://localhost:3000/usuario?id=${id}`, {
+
+        await axios.put( `http://localhost:3000/usuario?id=${id}`, {
             name,
             balance,
           }
         )
-        // .then((res)=>{
-        //   res.data.code ?  alert("Error codigo: " + res.data.code) : location.reload();
-        // })
-        $("#exampleModal").modal("hide");
-        // const dat = await data.json();
-        // if (response.status >= 400) {
-        //   Swal.fire(dat.error)
-        //     return
-        // }
-        // location.reload();
-      } catch (e) {
-        alert("Algo salió mal..." + e);
-      }
+        location.reload()
+      } catch (error) {
+        Swal.fire(error.response.data.pifia)
+       // alert(error.response.data.pifia);
+      }    
+      //alert("Algo salió mal... " + data.error);
+      $("#exampleModal").modal("hide");
     };
 
     $("form:first").submit(async (e) => {

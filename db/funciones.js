@@ -51,7 +51,7 @@ const editarUsuarios = async (nombre, balance, id) => {
   //await val.validarEditar(dtsUsr, 1)
   const mensaje = await val.validarEditar(dtsUsr)
   if (mensaje != undefined) {
-    console.log(mensaje);
+    throw mensaje;
     return
   }
 

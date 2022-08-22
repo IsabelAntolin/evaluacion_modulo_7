@@ -38,7 +38,8 @@ app.put('/usuario', async (req, res) => {
     await fn.editarUsuarios(datos.name, datos.balance, id)
   } catch (error) {
     res.statusCode = 400
-    return res.json({ error: error })
+    console.log(error);
+    return res.json({ pifia: error })
   }
   res.json({})
 })

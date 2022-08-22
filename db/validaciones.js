@@ -28,7 +28,6 @@ const validacion = async (obj, accion) => {
     }
   }
 }
-
 const validarEditar = async (obj) => {
   let mensaje
   const balance = parseInt(obj.balance)
