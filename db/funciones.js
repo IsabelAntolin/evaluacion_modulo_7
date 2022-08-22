@@ -5,20 +5,18 @@ const val = require('./validaciones')
 const mostrarUsuarios = async () => {
   const client = await pool.connect()
   const resp = await client.query({
-    text: "select * from usuarios",
-
+    text: "select * from usuarios"
   })
   client.release()
   return resp.rows
 }
 //insertar usuarios
 const crearUsuario = async (_nombre, _balance) => {
-
-
   const dtsUsuario = {
     nombre: _nombre,
     balance: _balance
   }
+ 
   await val.validacion(dtsUsuario, 1)
   // if (mensaje != undefined) {
   //   console.log(mensaje);
@@ -77,7 +75,6 @@ const eliminarUsuario = async (id) => {
   })
   client.release()
 }
-
 const crearTransferencias = async (emi, _receptor, _monto, _fecha) => {
   const client = await pool.connect()
   //obtener datos del emisor_____________________________________
@@ -97,34 +94,29 @@ const crearTransferencias = async (emi, _receptor, _monto, _fecha) => {
   const id_receptor = receptor.id
   const bal_receptor = receptor.balance
   // ____________________________________________________________
-
   const transferencia = {
     monto: _monto,
     balance: bal_emisor
   }
-
-  await val.validacion(transferencia, 2)
   await val.validarTrsUsr(id_emisor,id_receptor)
+  await val.validacion(transferencia, 2)
   // if (mensaje != undefined) {
   //   console.log(mensaje);
   //   return
   // }
-
-
-
-  //___________________________________________________________________________--
-  const resta = parseInt(bal_emisor) - _monto
-  const suma = parseInt(bal_receptor) + parseInt(_monto)
+  //___________________________________________________________________________
+  const resta = parseFloat(bal_emisor) - _monto
+  const suma = parseFloat(bal_receptor) + parseFloat(_monto)
 
   const montoActualizarE = await client.query({
     text: 'update usuarios set balance=$1 where id=$2',
-    values: [resta, id_emisor]
+    values: [resta.toFixed(2), id_emisor]
 
   })
   //se debe actualizar el monto de balance del receptor(se debe sumar)
   const montoActualizarR = await client.query({
     text: 'update usuarios set balance=$1 where id=$2',
-    values: [suma, id_receptor]
+    values: [suma.toFixed(2), id_receptor]
   })
 
   const resp = await client.query({
@@ -142,7 +134,6 @@ const historialtransferencias = async () => {
       text: "SELECT transferencias.id, emisores.nombre as Emisor, receptores.nombre as Receptor, Monto,fecha FROM transferencias JOIN usuarios as emisores ON emisor=emisores.id join usuarios as receptores on receptor= receptores.id",
       rowMode: 'array'
     })
-
   } catch (error) {
     console.log('error:', error);
   }

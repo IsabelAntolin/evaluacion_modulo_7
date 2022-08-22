@@ -1,7 +1,7 @@
 const validacion = async (obj, accion) => {
   const balance = parseInt(obj.balance)
   console.log(balance);
-
+  //valida usuarios
   if (accion == 1) {
     const nombre = (obj.nombre).trim()
     if (!nombre) {
@@ -13,26 +13,21 @@ const validacion = async (obj, accion) => {
     } else if (!balance) {
       throw 'Balance no corresponde a número ';
     }
-
-  } else {
+  
+  } else { //valida transferencias
     const monto = parseInt(obj.monto)
+    console.log(monto);
     if (isNaN(monto)) {
       throw 'Debe ingresar un valor numerico en el campo monto'
-    }
-    //si balance es 1 < -1000
-    if (monto <= 0) {
+    }else if (monto <= 0) {
       throw 'Alerta alerta intento de robo'
-    }
-
-    if (balance < monto) {
+    }else if (balance < monto) {
       throw 'Saldo insuficiente para realizar la transferencia'
-    }
-    if (balance <= 0) {
+    }else if (balance <= 0) {
       throw 'Monto debe ser mayor a 0'
     }
   }
 }
-
 
 const validarEditar = async (obj) => {
   let mensaje
